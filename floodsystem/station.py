@@ -43,7 +43,20 @@ class MonitoringStation:
         return d
 
     def typical_range_consistent(self):
+        # Test whether the typical range is a tuple
+        if type(self.typical_range) != tuple:
+            return False
+        # Test whether typical range upper bound is larger than lower bound
         if self.typical_range[1] < self.typical_range[0]:
             return False
-        if self.typical_range == None:
-            return False
+        else:
+            return True
+
+
+def inconsistent_typical_range_stations(stations):
+    # Build list of stations that are inconsistent
+    inconStat = []
+    for stat in stations:
+        if stat.typical_range_consistent() == False:
+            inconStat.append(stat)
+    return inconStat
