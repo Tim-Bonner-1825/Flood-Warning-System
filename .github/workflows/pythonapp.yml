@@ -31,11 +31,22 @@ jobs:
       #   run: flake8 --statistics *.py
 
       - name: Run unit tests using pytest
-        run: pytest -v
+        run: |
+          pytest -v
+          test_datafetcher.py
+          test_geo.py
+          test_station.py
+          test_stationdata.py
+          test_utils.py
 
       - name: Run Deliverable 1 code
         run: |
           python Task1A.py
+          python Task1B.py
+          python Task1C.py
+          python Task1D.py
+          python Task1E.py
+          python Task1F.py
 
       - name: Run Deliverable 2 code
         run: |
