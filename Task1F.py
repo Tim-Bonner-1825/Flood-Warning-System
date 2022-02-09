@@ -16,7 +16,7 @@ def run():
 
     # Sort and print
     incon_Names.sort()
-    print(incon_Names)
+    print("All stations with inconsistent data:\n", incon_Names)
 
 
 if __name__ == "__main__":

@@ -14,7 +14,7 @@ def run():
         names.append(s.name)
 
     # print result
-    print(sorted(names))
+    print("Stations within 10km: \n", sorted(names))
 
 
 if __name__ == "__main__":
