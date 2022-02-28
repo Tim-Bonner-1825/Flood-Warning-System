@@ -1,20 +1,25 @@
 import matplotlib.pyplot as plt
-from datetime import datetime, timedelta
-from .datafetcher import fetch_measure_levels
 
 
 def plot_water_levels(station, dates, levels):
-    # Plot
+    '''creates a plot from MonitoringStation object, dates, levels (x,y). Plot of water level against date.
+    args:
+        station:  MonitoringStation object that the dates and levels are from
+        dates = list of dates you want to plot
+        levels = list of levels corresponding to dates
+    '''
+    # creating low and high lines
+    typical_low_line = [station.typical_range[0]]*len(levels)
+    typical_high_line = [station.typical_range[1]]*len(levels)
+    # creating plot and labels
     plt.plot(dates, levels)
-    plt.plot([station.typical_range[1] for x in levels], levels)
-    plt.plot([station.typical_range[0] for x in levels], levels)
-    # Add axis labels, rotate date labels and add plot title
-    plt.xlabel('date')
-    plt.ylabel('water level (m)')
+    plt.plot(dates, typical_low_line)
+    plt.plot(dates, typical_high_line)
+    plt.xlabel("date")
+    plt.ylabel("water level (m)")
     plt.xticks(rotation=45)
-    plt.title("{}".format(station.name))
-
-    # Display plot
-    plt.tight_layout()  # This makes sure plot does not cut off date labels
-
+    plt.title(station.name)
+    # show plot
+    plt.tight_layout()
     plt.show()
+    
