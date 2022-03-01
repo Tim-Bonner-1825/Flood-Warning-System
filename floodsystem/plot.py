@@ -22,4 +22,3 @@ def plot_water_levels(station, dates, levels):
     # show plot
     plt.tight_layout()
     plt.show()
-    

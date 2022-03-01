@@ -35,11 +35,11 @@ class MonitoringStation:
     def __repr__(self):
         d = "Station name:     {}\n".format(self.name)
         d += "   id:            {}\n".format(self.station_id)
-        d += "   measure id:    {}\n".format(self.measure_id)
+        d += "   measure_id:    {}\n".format(self.measure_id)
         d += "   coordinate:    {}\n".format(self.coord)
         d += "   town:          {}\n".format(self.town)
         d += "   river:         {}\n".format(self.river)
-        d += "   typical range: {}".format(self.typical_range)
+        d += "   typical_range: {}".format(self.typical_range)
         return d
 
     def typical_range_consistent(self):
