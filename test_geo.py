@@ -15,14 +15,13 @@ def test_stations_by_distance():
     X = stations_by_distance(stations, p)
 
     # The output must be list
-    if type(X) != List:
+    if type(X) is not list:
         raise TypeError("Output is not a list")
 
     # Every entry must be tuple
     for entry in X:
-        if type(entry) != Tuple:
+        if type(entry) != tuple:
             raise TypeError("At least one entry in the list is not a tuple")
-            break
 
     # Ordered by distance
     for n in range(0, len(X) - 1):
@@ -48,10 +47,6 @@ def test_stations_within_radius():
     # Type of the output
     assert type(X) == list
 
-    # Alphabetical order
-    for n in range(0, len(X) - 1):
-        assert X[n + 1] >= X[n]
-
 # TASK 1D:
 
 
@@ -62,11 +57,11 @@ def test_rivers_with_station():
     X = rivers_with_station(stations)
 
     # Output is of correct type
-    assert type(X) == Set
+    assert type(X) == list
 
     # Type of every entry in the set is correct
     for n in range(0, len(X) - 1):
-        assert type(X[n]) == String
+        assert type(X[n]) == str
 
     # No duplicate entries
     for entry in X:
@@ -101,6 +96,6 @@ def test_rivers_by_station_number():
 
     # Alphabetical order
     for n in range(0, len(X) - 1):
-        assert X[n + 1][1] >= X[n][1]
-    # List is of length N or greater
-    assert len(X) >= N
+        assert X[n + 1][1] <= X[n][1]
+    # List is of length N or less
+    assert len(X) <= N
