@@ -6,6 +6,12 @@ JSON objects fetched from the Internet and
 
 """
 
+import datetime
+
+import matplotlib
+
+from floodsystem.analysis import polyfit
+from floodsystem.utils import sorted_by_key
 from . import datafetcher
 from .station import MonitoringStation
 
@@ -87,3 +93,47 @@ def update_water_levels(stations):
         if station.measure_id in measure_id_to_value:
             if isinstance(measure_id_to_value[station.measure_id], float):
                 station.latest_level = measure_id_to_value[station.measure_id]
+
+
+
+def flood_risk_assessment(stations):
+    """Classifies the stations according to risk of flooding. Returns list of tuples (name, risk level, score)"""
+    stations_and_risk = []
+    for station in stations:
+        # Get polynomial fit
+        dates, levels = datafetcher.fetch_measure_levels(station.measure_id, dt=datetime.timedelta(days=2))
+        if dates != [] and levels != []:
+            poly, d0 = polyfit(dates, levels, 4)
+
+            # Check if level is rising or falling (comparing now and now + 12h)
+            x = matplotlib.dates.date2num(dates[-1])
+            r = poly(x - d0 + 0.5) > 1.1 * poly(x - d0)
+            f = poly(x - d0 + 0.5) < 0.9 * poly(x - d0)
+
+            # Use rising/falling as a scaling factor on relative
+            if r:
+                scaling_factor = 1.2
+            elif f:
+                scaling_factor = 0.8
+            else:
+                scaling_factor = 1
+
+            try:
+                score = station.relative_water_level() * scaling_factor
+
+                # Classify risk
+                if score > 0.85:
+                    risk = 'Severe'
+                elif score > 0.75:
+                    risk = 'High'
+                elif score > 0.5:
+                    risk = 'Moderate'
+                else:
+                    risk = 'Low'
+
+                # Append data from this station to the list
+                stations_and_risk.append((station.name, score, risk))
+            except TypeError:
+                pass
+
+    return sorted_by_key(stations_and_risk, 1, reverse=True)
