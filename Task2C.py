@@ -12,7 +12,7 @@ def run():
 
     highestLevels = stations_highest_rel_level(stations, 10)
     for st in highestLevels:
-        print(st[0].name, st[1])
+        print(st.name, st.relative_water_level())
 
 
 if __name__ == "__main__":
