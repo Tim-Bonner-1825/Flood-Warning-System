@@ -20,4 +20,4 @@ def test_polyfit():
         assert isinstance(output, tuple)
         assert isinstance(output[0], numpy.poly1d)
         assert isinstance(output[1], float)
-        assert len(output) == 2
+        
